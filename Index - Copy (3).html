@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CNIP Master Portal | Liquid Glass Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.5);
+            --success: #10b981;
+            --success-glow: rgba(16, 185, 129, 0.4);
+            --danger: #f43f5e;
+            --danger-glow: rgba(244, 63, 94, 0.4);
+            --bg-dark: #0f172a;
+            --bg-gradient-1: #1e1b4b;
+            --bg-gradient-2: #0f172a;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2), #000);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--primary), transparent);
+            top: -200px;
+            right: -200px;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #ec4899, transparent);
+            bottom: -100px;
+            left: -100px;
+            animation: float 25s infinite ease-in-out reverse;
+        }
+
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #06b6d4, transparent);
+            top: 50%;
+            left: 50%;
+            animation: float 30s infinite ease-in-out;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* Liquid Glass Shell */
+        .shell {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                inset 0 0 0 1px var(--glass-highlight);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s var(--transition-smooth);
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.05),
+                transparent
+            );
+            transition: left 0.7s;
+        }
+
+        .glass-panel:hover::before {
+            left: 100%;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .hero-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        /* Liquid Glass Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px 16px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s var(--transition-smooth);
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(255, 255, 255, 0.15),
+                transparent 50%
+            );
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover::after {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 
+                0 20px 40px -15px var(--primary-glow),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+
+        .card:active {
+            transform: translateY(-2px) scale(0.98);
+        }
+
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .card-meta {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .card-glow {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: var(--primary);
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .card:hover .card-glow {
+            opacity: 0.3;
+        }
+
+        /* Quiz View */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .badge {
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .timer {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .timer.pulse {
+            animation: pulse-red 1s infinite;
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(244, 63, 94, 0); }
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #818cf8);
+            border-radius: 999px;
+            transition: width 0.6s var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Question */
+        .question-container {
+            margin-bottom: 32px;
+        }
+
+        .q-text {
+            font-size: 1.35rem;
+            line-height: 1.6;
+            font-weight: 500;
+            color: var(--text-primary);
+            white-space: pre-line;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Options */
+        .opt {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .opt::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--primary);
+            transform: scaleY(0);
+            transition: transform 0.3s;
+        }
+
+        .opt:hover:not(.disabled) {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(8px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .opt:hover::before:not(.disabled) {
+            transform: scaleY(1);
+        }
+
+        .opt.correct {
+            background: rgba(16, 185, 129, 0.15) !important;
+            border-color: var(--success) !important;
+            color: #34d399;
+            animation: correctPulse 0.6s;
+        }
+
+        .opt.correct::before {
+            background: var(--success);
+            transform: scaleY(1);
+        }
+
+        .opt.wrong {
+            background: rgba(244, 63, 94, 0.15) !important;
+            border-color: var(--danger) !important;
+            color: #fb7185;
+            animation: shake 0.5s;
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            50% { box-shadow: 0 0 20px 5px rgba(16, 185, 129, 0.2); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .opt-indicator {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+
+        .opt:hover .opt-indicator:not(.disabled) {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.2);
+        }
+
+        .opt.correct .opt-indicator {
+            border-color: var(--success);
+            background: var(--success);
+            color: white;
+        }
+
+        .opt.wrong .opt-indicator {
+            border-color: var(--danger);
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #4f46e5);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s var(--transition-smooth);
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transform: rotate(30deg);
+            transition: all 0.6s;
+        }
+
+        .btn-primary:hover::after {
+            left: 100%;
+        }
+
+        /* Results View */
+        .results-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .score-circle {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--primary) calc(var(--score-percent) * 1%),
+                rgba(255, 255, 255, 0.1) 0
+            );
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: rotateIn 1s var(--transition-smooth);
+        }
+
+        .score-circle::before {
+            content: '';
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            background: var(--bg-dark);
+            border-radius: 50%;
+            backdrop-filter: blur(10px);
+        }
+
+        .score-text {
+            position: relative;
+            z-index: 1;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        @keyframes rotateIn {
+            from { transform: rotate(-180deg) scale(0.8); opacity: 0; }
+            to { transform: rotate(0) scale(1); opacity: 1; }
+        }
+
+        .review-panel {
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 16px;
+        }
+
+        .review-panel::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .review-panel::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        .review-panel::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        .review-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s;
+        }
+
+        .review-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateX(5px);
+        }
+
+        .review-status {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 0.8rem;
+            margin-right: 12px;
+        }
+
+        .review-correct {
+            border-left: 4px solid var(--success);
+        }
+
+        .review-wrong {
+            border-left: 4px solid var(--danger);
+        }
+
+        /* View Transitions */
+        .view {
+            display: none;
+            animation: fadeIn 0.6s var(--transition-smooth);
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0.98);
+                filter: blur(10px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .shell {
+                padding: 20px 16px;
+            }
+            
+            .glass-panel {
+                padding: 24px 20px;
+                border-radius: 20px;
+            }
+            
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .card {
+                padding: 20px 12px;
+            }
+            
+            .q-text {
+                font-size: 1.1rem;
+            }
+            
+            .opt {
+                padding: 16px;
+            }
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-dark);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-ring {
+            width: 64px;
+            height: 64px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Ambient Background -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-ring"></div>
+    </div>
+
+    <div class="shell" id="app">
+        <!-- Home View -->
+        <div id="v-home" class="view active">
+            <div class="glass-panel">
+                <h1 class="hero-title">CNIP Master Portal</h1>
+                <p class="hero-subtitle">Complete Exam Preparation: Weeks 1 - 11</p>
+                
+                <div class="grid" id="main-grid"></div>
+            </div>
+        </div>
+
+        <!-- Quiz View -->
+        <div id="v-quiz" class="view">
+            <div class="glass-panel">
+                <div class="quiz-header">
+                    <span class="badge" id="q-lab">Question 1</span>
+                    <span class="timer" id="timer">00:00</span>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-fill" id="fill" style="width: 0%"></div>
+                </div>
+
+                <div class="question-container">
+                    <div class="q-text" id="q-txt"></div>
+                </div>
+
+                <div id="opt-box"></div>
+                
+                <button class="btn-primary" id="btn-next" style="display:none; float: right; margin-top: 24px;" onclick="handleNext()">
+                    Next Question →
+                </button>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+
+        <!-- Results View -->
+        <div id="v-res" class="view">
+            <div class="glass-panel">
+                <div class="results-header">
+                    <div class="score-circle" id="score-circle">
+                        <div class="score-text" id="score-text">0/0</div>
+                    </div>
+                    <h2 style="font-size: 2rem; margin-bottom: 8px;">Quiz Complete</h2>
+                    <p style="color: var(--text-secondary);" id="feedback-text">Great job!</p>
+                </div>
+
+                <div class="review-panel" id="r-list"></div>
+                
+                <button class="btn-primary" style="width: 100%; margin-top: 24px; justify-content: center;" onclick="location.reload()">
+                    ← Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+<script>
+const database = {
+    "Week 1": [
+        { q: "Map the devices with their associated layer in the TCP/IP model.\nA. NIC 1. Physical Layer\nB. Router 2. Data Link Layer\nC. Bridge 3. Network Layer\nD. Hub 4. Transport Layer", a: ["a) A-2, B-3, C-2, and D-1", "b) A-3, B-3, C-2, and D-1", "c) A-3, B-3, C-1, and D-2", "d) A-2, B-3, C-2, and D-2"], c: 0, s: "Hub=L1, Bridge/NIC=L2, Router=L3. Switch(L2) also works at Layer 2." },
+        { q: "Which of the following is/are true with respect to Bridge?\n(i) Also called \"smarter hub\"\n(ii) It filters network traffic based on MAC address", a: ["a) Only (i)", "b) Only (ii)", "c) Both (i) and (ii)", "d) Either (i) or (ii)"], c: 2, s: "A bridge forwards and filters network traffic intelligently using MAC addresses." },
+        { q: "Which of the following statement(s) are concerned with encapsulation in computer networks?\nI. It involves an addition of a header and trailer to the actual data as it moves down in the TCP/IP protocol stack.\nII. At the transport layer, encapsulation includes port numbers and at the network layer, encapsulation includes IP addresses.", a: ["a) Only (I)", "b) Only (II)", "c) Both (I) and (II)", "d) Neither (I) nor (II)"], c: 2, s: "Encapsulation adds headers (port/IP) and trailers as data moves down from upper layers." },
+        { q: "Which of the following is NOT a disadvantage of the circuit switching technique over the packet switching technique in computer networks?", a: ["a) Delay in the establishment of a dedicated connection", "b) Inefficient utilization of the resources", "c) Less scalable", "d) Provides a dedicated communication path between two end hosts"], c: 3, s: "Providing a dedicated path is an advantage of circuit switching." },
+        { q: "What is socket address?", a: ["a) Combination of port and IP address", "b) Combination of MAC and IP address", "c) IP address only", "d) None of this"], c: 0, s: "A socket address is the combination of an IP address and a port number." },
+        { q: "Which layer collects a stream of bits into a frame?", a: ["a) Physical Layer", "b) Network Layer", "c) Data Link Layer", "d) Session Layer"], c: 2, s: "The Data Link Layer (L2) assembles bits from the physical layer into frames." },
+        { q: "Which transport layer protocol will be chosen by an application that does not require any reliability?", a: ["a) TCP", "b) UDP"], c: 1, s: "UDP is connectionless and does not provide reliability (unlike TCP)." },
+        { q: "What is the First search-engine?", a: ["a) Chrome", "b) Internet Explorer", "c) HotBot", "d) Archie"], c: 3, s: "Archie was the first tool for indexing FTP archives in 1990." },
+        { q: "Choose the statement(s) that correctly describe(s) the roles and responsibilities of the Network Interface Card (NIC) in the computer networks.\nI. NIC takes over the responsibility of segmenting large chunks of data into smaller packets.\nII. It converts digital data from the computer's processor to an analog signal.", a: ["a) Only (I)", "b) Only (II)", "c) Both (I) and (II)", "d) Neither (I) nor (II)"], c: 2, s: "NIC handles both digital-to-analog conversion and TCP Segmentation Offload (TSO)." },
+        { q: "What is the size of IP address (IPv4) in bytes?", a: ["a) 4", "b) 32", "c) 16", "d) 10"], c: 0, s: "IPv4 is 32 bits, which equals 4 bytes." }
+    ],
+    "Week 2": [
+        { q: "Is host.xyz.com. a fully qualified domain name?", a: ["a) True", "b) False"], c: 0, s: "The trailing dot signifies it is a Fully Qualified Domain Name (FQDN)." },
+        { q: "What makes FTP more secure than TFTP (Trivial File Transfer Protocol)?", a: ["a) TFTP lacks features like user authentication", "b) TFTP allows simultaneous connections", "c) TFTP uses TCP", "d) TFTP is for unreliable networks"], c: 0, s: "TFTP lacks user authentication and runs on UDP, making it less secure." },
+        { q: "In the HTTP architecture, which of the following best describes a Uniform Resource Locator (URL)?", a: ["a) A secure protocol", "b) A client-side scripting language", "c) A unique identifier for resources, including the protocol, hostname, and path", "d) A header that allows caching"], c: 2, s: "URLs specify the protocol, host, and path to uniquely identify a resource." },
+        { q: "Which of the following is the correct syntax for anchor tags in HTML?", a: ["a) <p>...</p>", "b) <ar>...</ar>", "c) <a>...</a>", "d) <b>...</b>"], c: 2, s: "The <a> tag is the standard HTML anchor for creating links." },
+        { q: "Which of the following is correct for statements P, Q and R?\nP: HTTP uses TCP port 80 for communication.\nQ: TELNET transmits data in an encrypted format.\nR: DNS can operate on both TCP and UDP.", a: ["a) Both P and R is False, Only Q is True", "b) Both P and R is True, Q is False", "c) Only Q is True", "d) Only R is False"], c: 1, s: "Telnet is unencrypted (plaintext). DNS uses UDP for queries and TCP for zone transfers." },
+        { q: "What is the correct syntax to initiate a Telnet connection to the web server of www.iitkgp.ac.in?", a: ["a) telnet//www.iitkgp.ac.in", "b) telnet:www.iitkgp.ac.in", "c) telnet://www.iitkgp.ac.in", "d) telnet www.iitkgp.ac.in"], c: 3, s: "The command line syntax is 'telnet' followed by the hostname." },
+        { q: "Which of the following protocols allow non-ASCII data to be sent over email?", a: ["a) IMAP4", "b) TELNET", "c) MIME", "d) POP3"], c: 2, s: "MIME transforms binary/non-ASCII data into a format SMTP can transmit." },
+        { q: "Which of the following is true about the mail transfer protocol?\nS1: Can send image files with the help of IMAP4\nS2: Can send image files with the help of POP3\nS3: IMAP4 is more secure than POP3", a: ["a) Only S1", "b) Only S2", "c) S2 and S3 only", "d) All S1, S2, and S3"], c: 3, s: "Both support images via MIME; IMAP4 provides better security/syncing than POP3." },
+        { q: "Which of the following is/are NOT an Application Layer protocol(s)?", a: ["a) HTTP", "b) SFTP", "c) UDP", "d) SNMP"], c: 2, s: "UDP is a Transport Layer protocol." },
+        { q: "Command used by DNS to translate a FQDN into its IP address?", a: ["a) iplookup", "b) nssearch", "c) ipconfig", "d) nslookup"], c: 3, s: "nslookup is used to query DNS for name-to-IP resolution." }
+    ],
+    "Week 3": [
+        { q: "Flow control is mainly implemented in", a: ["a) Physical Layer", "b) Application Layer", "c) Transport Layer", "d) Session Layer"], c: 2, s: "Flow control ensures the sender does not overwhelm the receiver (Transport Layer)." },
+        { q: "What kind of sequence number does TCP use?", a: ["a) byte-oriented sequence number", "b) packet-oriented sequence number", "c) Randomly generated fixed sequence numbers", "d) none of them"], c: 0, s: "TCP numbers each byte in the data stream for reliable delivery." },
+        { q: "Which of the following services is NOT supported by the transport layer?", a: ["a) End-to-end packet delivery", "b) Ordered packet delivery", "c) Reliable data delivery", "d) Forwarding the datagram from one hop to another"], c: 3, s: "Hop-to-hop forwarding is the responsibility of the Data Link and Network layers." },
+        { q: "Transport layer is implemented in the Firmware of a computer system.", a: ["a) True", "b) False"], c: 1, s: "The transport layer is implemented in the OS Kernel." },
+        { q: "A data of 40 bytes need to be delivered using TCP. Sender max size is 12 bytes. Sequence field uses 5 bits (0-31). Identify the sequence number of the last segment.", a: ["a) 1", "b) 4", "c) 12", "d) 31"], c: 1, s: "Segments: (0-11), (12-23), (24-3, wrap at 31), (4-7). Last segment starts at 4." },
+        { q: "Timestamping a network packet is necessary for\n(i) Enabling time synchronization across router\n(ii) For defining packet lifetime.", a: ["a) Only (i)", "b) Only (ii)", "c) Both (i) and (ii)", "d) None of above"], c: 2, s: "Timestamping defines TTL and synchronizes time across network nodes." },
+        { q: "Delayed duplicate SYN can be handled by TCP at Host 2 simply by ignoring it, as the sequence number is invalid.", a: ["a) True", "b) False"], c: 0, s: "Handshake sequence numbers validate legitimacy; outdated ones are ignored." },
+        { q: "TCP instance uses a sliding window protocol... A timeout occurs due to loss. Mark the RIGHT statement:", a: ["a) TCP follows Go-back-N protocol", "b) TCP follows Selective Repeat protocol", "c) Both (a) and (b)", "d) None of (a) or (b)"], c: 3, s: "TCP uses a unique hybrid ARQ mechanism, not strictly GBN or Selective Repeat." },
+        { q: "TCP header length field is specified in terms of", a: ["a) Bytes", "b) Bits", "c) 4-byte words", "d) none of these"], c: 2, s: "Header length uses 4-byte (32-bit) words as the unit." },
+        { q: "In TCP checksum, the checksum calculation covers", a: ["a) TCP header only", "b) TCP payload only", "c) TCP pseudo-header, header and data", "d) none of them"], c: 2, s: "Full coverage ensures error detection for headers and payload." }
+    ],
+    "Week 4": [
+        { q: "Max TCP payload is 1450 Bytes. What is the max network layer payload?", a: ["a) 1450 Bytes", "b) 1470 Bytes", "c) 1430 Bytes", "d) 1480 Bytes"], c: 1, s: "1450 (Payload) + 20 (TCP Header) = 1470 Bytes." },
+        { q: "Receiver window is 0. Space frees up but ACK is lost. What should the client do to prevent deadlock?", a: ["a) Wait indefinitely", "b) Resend data packets", "c) Use a keep-alive mechanism to check status", "d) Close connection"], c: 2, s: "A keep-alive mechanism probes the server for buffer availability updates." },
+        { q: "Which is true for the Transport Layer?\n(i) Should be Stateful.\n(ii) Uses FTP protocols for flow control.", a: ["a) Only (i)", "b) Only (ii)", "c) Both (i) and (ii)", "d) None of the above"], c: 0, s: "Transport Layer is stateful; flow control uses ARQ protocols, not FTP." },
+        { q: "TCP connection has high delays and reordering. Which help maintain ordered communication?\n(i) Sequence numbers\n(ii) ACK numbers\n(iii) Urgent pointer\n(iv) Sliding window", a: ["a) (i), (iii), (iv)", "b) (i), (ii), (iii)", "c) (ii), (iii), (iv)", "d) (i), (ii), (iv)"], c: 3, s: "Urgent pointer does not help with ordering; Seq/ACK and Sliding Window do." },
+        { q: "In TCP release, why does active closer enter TIME-WAIT after receiving final ACK?", a: ["a) To confirm FIN", "b) To allow passive closer to resend", "c) To ensure delayed packets are discarded", "d) To avoid reusing port"], c: 2, s: "TIME-WAIT prevents delayed packets from interfering with new connections." },
+        { q: "Link bandwidth 1 Mbps, delay 1ms, segment 1 KB. Relationship between BDP and segment size?", a: ["a) BDP = 8 x (segment size)", "b) BDP/4 = segment size", "c) BDP/8 = segment size", "d) BDP x 8 = segment size"], c: 3, s: "BDP = 1Mbps * 1ms = 1Kb. Segment = 1KB = 8Kb. Segment = 8 * BDP." },
+        { q: "Using cryptographic function for sequence numbers avoids:", a: ["a) Congestion", "b) DoS attack", "c) TCP SYN flood attack", "d) None of these"], c: 2, s: "SYN cookies use crypto hashing to verify connection requests." },
+        { q: "AIMD starts with 1 Mbps. Four additive increases (+0.5 Mbps), then loss. Decrease factor 0.5. New rate?", a: ["a) 1.5 Mbps", "b) 1 Mbps", "c) 3 Mbps", "d) 2.5 Mbps"], c: 0, s: "Rate 3 Mbps (1 + 4*0.5) -> Loss -> 3 * 0.5 = 1.5 Mbps." },
+        { q: "Which of the following is NOT part of the TCP header?", a: ["a) Source Port", "b) Checksum", "c) Protocol Type", "d) Sequence Number"], c: 2, s: "Protocol Type is located in the Network Layer (IP) header." },
+        { q: "TCP provides", a: ["a) Half-duplex", "b) Full-duplex", "c) Simplex", "d) none of these"], c: 1, s: "TCP allows simultaneous bidirectional data flow." }
+    ],
+    "Week 5": [
+        { q: "Sender Window in TCP can be given as:", a: ["a) max(CWND, RWND)", "b) Congestion Window", "c) Receiver Window", "d) min(CWND, RWND)"], c: 3, s: "Sender is limited by both network congestion (CWND) and receiver buffer (RWND)." },
+        { q: "What is the advantage of an iterative server over a concurrent server?", a: ["a) Handles multiple requests faster", "b) Easier to implement and debug", "c) Supports asynchronous I/O", "d) Lower response times"], c: 1, s: "Iterative servers are simpler due to their sequential nature." },
+        { q: "Which of the following uses UDP?", a: ["a) DNS", "b) POP", "c) HTTP", "d) FTP"], c: 0, s: "DNS uses UDP/53 for rapid, low-latency lookups without handshake overhead." },
+        { q: "What impact does a higher alpha value have on Jacobson's algorithm?", a: ["a) SRTT more sensitive", "b) Reduces impact of new RTT measurements", "c) Increases RTTVAR weight", "d) Eliminates RTTVAR"], c: 1, s: "Higher alpha values emphasize historical SRTT, increasing stability over responsiveness." },
+        { q: "FD_ZERO is used for", a: ["a) tests if part of set", "b) Initializes file descriptor set (bitmap)", "c) Set FD as part of set", "d) None of the above"], c: 1, s: "FD_ZERO clears all bits in an fd_set to initialize it." },
+        { q: "SOCK_DGRAM represents", a: ["a) UDP-based Datagram Socket", "b) TCP-based Stream Socket", "c) QUIC-based Stream Socket", "d) None of the above"], c: 0, s: "SOCK_DGRAM specifies a connectionless datagram service (UDP)." },
+        { q: "select() system call returns one when?", a: ["a) Exactly one FD is ready", "b) Call timed out", "c) Zero pending", "d) OS kills process"], c: 0, s: "A return value of 1 means one file descriptor is ready for I/O." },
+        { q: "What does the listen() function do in socket programming?", a: ["a) Binds to address", "b) Passive mode to wait for connections", "c) Actively connects", "d) Sends data"], c: 1, s: "listen() prepares the socket to accept incoming client connections." },
+        { q: "Which of the following is false?", a: ["a) TCP uses congestion control", "b) TCP uses both flow/congestion control", "c) TCP uses flow control", "d) TCP doesn't have any flow/congestion control"], c: 3, s: "TCP mandatorily includes both mechanisms for reliability." },
+        { q: "Which function can be used to configure socket options like timeout or buffer size?", a: ["a) setsockopt()", "b) sockopt()", "c) configure()", "d) options()"], c: 0, s: "setsockopt() is the standard API for modifying socket behaviors." }
+    ],
+    "Week 6": [
+        { q: "In communication over an ISP, which of the following is responsible for determining the best path for packet delivery?", a: ["a) Transport Layer", "b) Network Layer", "c) Data Link Layer", "d) Application Layer"], c: 1, s: "The network layer, using routing protocols and IP, determines the best path." },
+        { q: "You need 500 subnets, each with about 100 usable host addresses per subnet. What network mask will you assign using a class B network address?", a: ["a) 255.255.255.252", "b) 255.255.255.128", "c) 255.255.255.0", "d) 255.255.254.0"], c: 1, s: "Requires 9 bits for subnets (255.255.255.128)." },
+        { q: "What type of address is \"0.0.0.0\" in IPv4?", a: ["a) Loopback address", "b) Default route address", "c) Broadcast address", "d) Unspecified address"], c: 3, s: "Indicates an unspecified address during bootstrapping." },
+        { q: "What is the primary function of the network layer in the TCP/IP model?", a: ["a) Establish end-to-end connections", "b) Ensure reliable data transfer", "c) Handle logical addressing and routing", "d) Encrypt and decrypt data"], c: 2, s: "Logical addressing and routing." },
+        { q: "When communicating between two nodes, what role does the transport layer protocol play?", a: ["a) Routing the data packets", "b) Providing logical addressing", "c) Ensuring reliable or fast data delivery", "d) Forwarding to next hop"], c: 2, s: "Ensuring reliable or fast data delivery." },
+        { q: "Which of the following is/are not a valid IPv6 address?", a: ["a) AE82::1:800:23E7:F5DB", "b) FC80:2:7:1:800:23E7:A:F5DB", "c) DE62:6A42:1:5AC::800:23E7:F5DB", "d) FE80:2030:31:24"], c: 3, s: "IPv6 must have 8 groups." },
+        { q: "Maximum number of hosts under class B addresses?", a: ["a) 254", "b) 65534", "c) 65535", "d) 65536"], c: 1, s: "2^16 - 2 = 65,534 hosts." },
+        { q: "The header length of the IPv6 datagram is", a: ["a) 10 bytes", "b) 20 bytes", "c) 30 bytes", "d) 40 bytes"], c: 3, s: "Fixed 40-byte header." },
+        { q: "ICMP message type for Destination Unreachable?", a: ["a) Type 0", "b) Type 3", "c) Type 8", "d) Type 11"], c: 1, s: "Type 3 is unreachable." },
+        { q: "Where are forwarding decisions made in a modern router?", a: ["a) RIB", "b) FIB", "c) ARP Cache", "d) MAC Table"], c: 1, s: "Forward Information Base (FIB) handles fast path forwarding." }
+    ],
+    "Week 7": [
+        { q: "Transmission delay for pushing 1MB packet through 16Mbps bandwidth?", a: ["a) 2 seconds", "b) 0.5 seconds", "c) 1 second", "d) 10 seconds"], c: 1, s: "8Mb / 16Mbps = 0.5s." },
+        { q: "File transfer applications require non–real-time variable bit rate (NRT-VBR).", a: ["a) True", "b) False"], c: 1, s: "File transfer is best-effort (ABR)." },
+        { q: "The primary goal of QoS is", a: ["a) Degrade loss", "b) Control jitter", "c) Increase latency", "d) Reduce security"], c: 1, s: "Control jitter, improve loss, decrease latency." },
+        { q: "Which statement is TRUE?", a: ["a) TCP is Inelastic", "b) TCP is Elastic/preferred for video", "c) UDP is Elastic", "d) UDP is Inelastic/preferred for real-time video"], c: 3, s: "UDP is inelastic/real-time preferred." },
+        { q: "Video conferencing QoS class?", a: ["a) Constant bit rate", "b) Real-time variable bit rate", "c) Non-real-time variable bit rate", "d) Available bit rate"], c: 1, s: "RT-VBR." },
+        { q: "Which is NOT a benefit of traffic shaping?", a: ["a) Reducing congestion", "b) Controlling flow rate", "c) Improving efficiency", "d) Prioritizing traffic"], c: 3, s: "Prioritizing is scheduling." },
+        { q: "Traffic scheduling algorithm example?", a: ["a) Weighted Fair Queuing (WFQ)", "b) Leaky Bucket", "c) Token Bucket", "d) RED"], c: 0, s: "WFQ is scheduling." },
+        { q: "Token bucket arrival r = packet arrival r, size b. MBS and output rate?", a: ["a) rb and r+b", "b) No burst and rb", "c) No burst and r", "d) r + b and rb"], c: 2, s: "No burst if rates match." },
+        { q: "RSVP FALSE statement?", a: ["a) Difficult to implement", "b) Routers coordinate", "c) Uses diff-serv fields", "d) IntServ protocol"], c: 2, s: "RSVP is IntServ, not DiffServ." },
+        { q: "Best-effort application type?", a: ["a) Voice", "b) Video", "c) Email", "d) Telemetry"], c: 2, s: "Email/Web." }
+    ],
+    "Week 8": [
+        { q: "How does the router decide destination if multiple entries match?", a: ["a) Picks first", "b) Longest prefix matching", "c) Shortest prefix matching", "d) Picks last"], c: 1, s: "Most specific route." },
+        { q: "Intra-domain routing protocol?", a: ["a) BGP", "b) RIP", "c) OSPF", "d) EIGRP"], c: 2, s: "OSPF is intra-domain." },
+        { q: "BGP UPDATE and NOTIFICATION messages use:", a: ["a) Reachability and error notification", "b) Confirm connection", "c) Keepalives", "d) Opening/Closing connection"], c: 0, s: "Reachability and errors." },
+        { q: "Why divide IP into network and host addresses?", a: ["a) Increase IPs", "b) Host-based routing", "c) Avoid storing all host IPs in each router", "d) DNS resolution"], c: 2, s: "Avoid overhead." },
+        { q: "Router A: 192.168.1.0/24 (B), 192.168.1.128/28 (D). Destination 192.168.1.10 next hop?", a: ["a) D", "b) B", "c) C", "d) Broadcast"], c: 1, s: "Matches /24." },
+        { q: "How host knows its IP without manual config?", a: ["a) DNS", "b) From routing table", "c) ARP", "d) DHCP"], c: 3, s: "DHCP dynamically assigns." },
+        { q: "Data structure for fast LPM?", a: ["a) Double Linked List", "b) Segment Trees", "c) Red Black Trees", "d) Patricia Trees"], c: 3, s: "Patricia Trees for bit-by-bit search." },
+        { q: "TRUE about BGP routing protocol?", a: ["a) Intradomain", "b) Link State", "c) Relies on IGP for reachability", "d) Replaces IGP"], c: 2, s: "Relies on IGP." },
+        { q: "Autonomous System (AS) definition?", a: ["a) Single host", "b) Network with common policy", "c) A single router", "d) ISP"], c: 1, s: "Managed under a single entity." },
+        { q: "Distance Vector vs Link State?", a: ["a) LS has global topology view", "b) DV is faster", "c) LS uses hop count", "d) DV is global"], c: 0, s: "LS has full map." }
+    ],
+    "Week 9": [
+        { q: "SDN component responsible for communicating with the controller?", a: ["a) Data plane", "b) Control plane", "c) Management plane", "d) Forwarding plane"], c: 1, s: "Control plane manages flow." },
+        { q: "Subset with all routers but no loops?", a: ["a) Spanning tree", "b) Spider structure", "c) Spider tree", "d) Special tree"], c: 0, s: "Spanning tree eliminates loops." },
+        { q: "Connection-less socket classes?", a: ["a) Datagram Socket", "b) Datagram Packet", "c) Both Datagram Socket & Datagram Packet", "d) Server Socket"], c: 2, s: "UDP classes." },
+        { q: "NOT a router function?", a: ["a) Path determination", "b) Packet forwarding", "c) Packet filtering", "d) Packet retransmission"], c: 3, s: "Retransmission is L4 function." },
+        { q: "OpenFlow role in SDN?", a: ["a) Control/Data plane communication", "b) Encryption", "c) Monitoring", "d) Security"], c: 0, s: "South-bound interface." },
+        { q: "Ethernet framing for TCP/IP?", a: ["a) Ethernet 802.3", "b) Ethernet 802.2", "c) Ethernet II", "d) Ethernet SNAP"], c: 2, s: "Ethernet II." },
+        { q: "FIB FALSE statement?", a: ["a) Mirrors RIB", "b) Merging planes", "c) Decision source", "d) Stored in TCAM"], c: 1, s: "Allows plane separation." },
+        { q: "SDN Northbound interface role?", a: ["a) Manage devices", "b) Controller-Application comms", "c) Monitor traffic", "d) Provide services"], c: 1, s: "Controller to apps." },
+        { q: "CSMA/CD stands for?", a: ["a) Collision Detection", "b) Collision Delay", "c) Carrier Detection", "d) Control Data"], c: 0, s: "Carrier Sense Multi-Access/Collision Detection." },
+        { q: "Switch vs Bridge?", a: ["a) Switch is multi-port bridge", "b) Bridge is multi-port switch", "c) Both use IP", "d) Both use Ports"], c: 0, s: "Hardware-based bridge." }
+    ],
+    "Week 10": [
+        { q: "Standard for Ethernet is?", a: ["a) 802.11", "b) 802.15", "c) 802.3", "d) 802.16"], c: 2, s: "IEEE 802.3." },
+        { q: "Layer that handles media access control?", a: ["a) Physical", "b) Network", "c) Data Link", "d) Transport"], c: 2, s: "MAC is sublayer of Data Link." },
+        { q: "MAC address size?", a: ["a) 32-bit", "b) 48-bit", "c) 64-bit", "d) 128-bit"], c: 1, s: "6 bytes (48 bits)." },
+        { q: "VLAN Tagging standard?", a: ["a) 802.1D", "b) 802.1Q", "c) 802.1w", "d) 802.1s"], c: 1, s: "802.1Q." },
+        { q: "Ethernet error detection?", a: ["a) Checksum", "b) CRC", "c) Parity", "d) Hamming"], c: 1, s: "Cyclic Redundancy Check." },
+        { q: "Minimum Ethernet frame size?", a: ["a) 46B", "b) 64B", "c) 1500B", "d) 1518B"], c: 1, s: "64 bytes." },
+        { q: "Full-duplex Ethernet needs?", a: ["a) Hub", "b) Switch", "c) Bridge", "d) Repeater"], c: 1, s: "Eliminates collisions." },
+        { q: "ARP request is?", a: ["a) Unicast", "b) Broadcast", "c) Multicast", "d) Anycast"], c: 1, s: "Broadcast to all nodes." },
+        { q: "10BaseT uses which cable?", a: ["a) Coaxial", "b) Twisted pair", "c) Fiber", "d) Serial"], c: 1, s: "Twisted pair." },
+        { q: "Store-and-forward stores?", a: ["a) First 64B", "b) Header only", "c) Destination only", "d) Whole frame"], c: 3, s: "Checks for errors before forwarding." }
+    ],
+    "Week 11": [
+        { q: "Ethernet broadcast address for ARP requests?", a: ["a) 255.255.255.255", "b) FF:FF:FF:FF:FF:FF", "c) 0.0.0.0", "d) 127.0.0.1"], c: 1, s: "Broadcast MAC is all ones." },
+        { q: "ARP blank field in Request, filled in Reply?", a: ["a) Target IP", "b) Target MAC", "c) Sender IP", "d) Sender MAC"], c: 1, s: "Target hardware address." },
+        { q: "DHCP Transport protocol?", a: ["a) TCP", "b) UDP", "c) ICMP", "d) IP"], c: 1, s: "UDP ports 67/68." },
+        { q: "RARP is true about?", a: ["a) Replacement for DHCP", "b) Uses broadcast reply", "c) Legacy/Obsolete", "d) Unicast request"], c: 2, s: "Legacy protocol." },
+        { q: "802.11 mandatory support?", a: ["a) DCF", "b) PCF", "c) CSMA/CD", "d) Token passing"], c: 0, s: "DCF is mandatory." },
+        { q: "Transparent Bridge characteristic?", a: ["a) Builds own table", "b) Manual entries", "c) Routing", "d) Encryption"], c: 0, s: "Learns MACs automatically." },
+        { q: "VLAN Trunking carries:", a: ["a) One VLAN", "b) All VLANs by default", "c) Native only", "d) No VLANs"], c: 1, s: "Carries all VLAN traffic." },
+        { q: "DHCP Discover is:", a: ["a) Unicast", "b) Broadcast", "c) Multicast", "d) Anycast"], c: 1, s: "Broadcast." },
+        { q: "802.11 IFS hierarchy?", a: ["a) SIFS < PIFS < DIFS", "b) DIFS < PIFS < SIFS", "c) PIFS < SIFS < DIFS", "d) SIFS < DIFS < PIFS"], c: 0, s: "Priority based on length." },
+        { q: "Bridge separates collision domains?", a: ["a) Each port separate", "b) One domain for all", "c) No domain", "d) Domain by IP"], c: 0, s: "Isolation per port." }
+    ]
+};
+
+// Application State
+let session = { q: [], i: 0, score: 0, t: 0, logs: [] };
+let timerInterval;
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+// Initialize
+window.onload = () => {
+    setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+    }, 500);
+    
+    const grid = document.getElementById('main-grid');
+    Object.keys(database).forEach((week, index) => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `
+            <div class="card-glow"></div>
+            <div class="card-title">${week}</div>
+            <div class="card-meta">${database[week].length} Questions</div>
+        `;
+        div.style.animationDelay = `${index * 0.1}s`;
+        div.onclick = () => startQuiz(week);
+        
+        // 3D Tilt Effect
+        div.addEventListener('mousemove', handleTilt);
+        div.addEventListener('mouseleave', resetTilt);
+        
+        grid.appendChild(div);
+    });
+};
+
+function handleTilt(e) {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = (y - centerY) / 10;
+    const rotateY = (centerX - x) / 10;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px) scale(1.02)`;
+    card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
+    card.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
+}
+
+function resetTilt(e) {
+    e.currentTarget.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1)';
+}
+
+function startQuiz(week) {
+    session.q = shuffleArray([...database[week]]);
+    session.i = 0;
+    session.score = 0;
+    session.logs = [];
+    session.t = Date.now();
+    
+    switchView('v-home', 'v-quiz');
+    renderQuestion();
+    
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(updateTimer, 1000);
+}
+
+function switchView(from, to) {
+    document.getElementById(from).classList.remove('active');
+    setTimeout(() => {
+        document.getElementById(to).classList.add('active');
+    }, 100);
+}
+
+function renderQuestion() {
+    const q = session.q[session.i];
+    document.getElementById('q-txt').innerText = q.q;
+    document.getElementById('q-lab').innerText = `Question ${session.i + 1} of ${session.q.length}`;
+    document.getElementById('fill').style.width = `${((session.i + 1) / session.q.length) * 100}%`;
+    
+    const box = document.getElementById('opt-box');
+    box.innerHTML = '';
+    
+    q.a.forEach((optText, idx) => {
+        const div = document.createElement('div');
+        div.className = 'opt';
+        div.innerHTML = `
+            <div class="opt-indicator">${String.fromCharCode(65 + idx)}</div>
+            <div style="flex: 1;">${optText}</div>
+        `;
+        div.onclick = () => checkAnswer(idx, div);
+        box.appendChild(div);
+    });
+    
+    document.getElementById('btn-next').style.display = 'none';
+}
+
+function checkAnswer(idx, el) {
+    const q = session.q[session.i];
+    const options = document.querySelectorAll('.opt');
+    
+    options.forEach(o => {
+        o.style.pointerEvents = 'none';
+        o.classList.add('disabled');
+    });
+
+    if (idx === q.c) {
+        el.classList.add('correct');
+        el.querySelector('.opt-indicator').innerHTML = '✓';
+        session.score++;
+        session.logs.push({ q: q.q, res: true, info: q.s });
+        playSound('correct');
+    } else {
+        el.classList.add('wrong');
+        el.querySelector('.opt-indicator').innerHTML = '✕';
+        options[q.c].classList.add('correct');
+        options[q.c].querySelector('.opt-indicator').innerHTML = '✓';
+        session.logs.push({ q: q.q, res: false, info: q.s });
+        playSound('wrong');
+    }
+    
+    document.getElementById('btn-next').style.display = 'inline-flex';
+    
+    if (session.i === session.q.length - 1) {
+        document.getElementById('btn-next').innerHTML = 'Finish Quiz →';
+    }
+}
+
+function handleNext() {
+    session.i++;
+    if (session.i < session.q.length) {
+        renderQuestion();
+    } else {
+        showResults();
+    }
+}
+
+function showResults() {
+    clearInterval(timerInterval);
+    switchView('v-quiz', 'v-res');
+    
+    const percent = (session.score / session.q.length) * 100;
+    document.getElementById('score-circle').style.setProperty('--score-percent', percent);
+    document.getElementById('score-text').innerText = `${session.score}/${session.q.length}`;
+    
+    const feedback = percent >= 80 ? 'Outstanding! 🎉' : 
+                    percent >= 60 ? 'Good job! 👍' : 'Keep practicing! 💪';
+    document.getElementById('feedback-text').innerText = feedback;
+    
+    if (percent >= 80) launchConfetti();
+    
+    const list = document.getElementById('r-list');
+    list.innerHTML = '<h3 style="margin-bottom: 20px; font-family: Space Grotesk; font-size: 1.25rem;">Review Answers</h3>';
+    
+    session.logs.forEach((log, idx) => {
+        const item = document.createElement('div');
+        item.className = `review-item ${log.res ? 'review-correct' : 'review-wrong'}`;
+        item.style.animationDelay = `${idx * 0.05}s`;
+        item.innerHTML = `
+            <div style="display: flex; align-items: start; gap: 12px; margin-bottom: 8px;">
+                <span class="review-status" style="background: ${log.res ? 'var(--success)' : 'var(--danger)'}; color: white;">
+                    ${log.res ? '✓' : '✕'}
+                </span>
+                <div style="flex: 1; font-weight: 500; line-height: 1.5;">${log.q}</div>
+            </div>
+            <div style="margin-left: 36px; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.4;">
+                <strong style="color: ${log.res ? 'var(--success)' : 'var(--danger)'};">Explanation:</strong> ${log.info}
+            </div>
+        `;
+        list.appendChild(item);
+    });
+}
+
+function updateTimer() {
+    const elapsed = Math.floor((Date.now() - session.t) / 1000);
+    const m = Math.floor(elapsed / 60).toString().padStart(2, '0');
+    const s = (elapsed % 60).toString().padStart(2, '0');
+    const timerEl = document.getElementById('timer');
+    timerEl.innerText = `${m}:${s}`;
+    
+    if (elapsed > 600) timerEl.classList.add('pulse');
+}
+
+function playSound(type) {
+    // Optional: Add audio feedback here
+    // const audio = new Audio(type === 'correct' ? 'correct.mp3' : 'wrong.mp3');
+    // audio.play().catch(e => {});
+}
+
+// Confetti Effect
+function launchConfetti() {
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const pieces = [];
+    const colors = ['#6366f1', '#10b981', '#f43f5e', '#f59e0b', '#ec4899'];
+    
+    for (let i = 0; i < 100; i++) {
+        pieces.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height - canvas.height,
+            rotation: Math.random() * 360,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            size: Math.random() * 10 + 5,
+            speed: Math.random() * 3 + 2
+        });
+    }
+    
+    let animationId;
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        pieces.forEach(p => {
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate((p.rotation * Math.PI) / 180);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+            ctx.restore();
+            
+            p.y += p.speed;
+            p.rotation += 2;
+            
+            if (p.y > canvas.height) p.y = -20;
+        });
+        
+        animationId = requestAnimationFrame(animate);
+    }
+    
+    animate();
+    
+    setTimeout(() => {
+        cancelAnimationFrame(animationId);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }, 5000);
+}
+
+window.onresize = () => {
+    const canvas = document.getElementById('confetti-canvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+};
+</script>
+</body>
+</html>
